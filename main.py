@@ -2,7 +2,7 @@
 from game import get_available_moves, move_player, collect_item
 
 
-def start_game():
+def play_game():
     """Start the Mystery Island adventure."""
 
     print("==============================")
@@ -68,12 +68,13 @@ def start_game():
                     if item is not None:
                         print(f"You found a {item}!")
                         print(f"{item} added to your inventory.")
-                if current_location == "Lighthouse":
-                     print("\nYou use the lantern to restore the lighthouse beacon!")
-                     print("A rescue boat spots the signal!")
-                     print(f"Congratulations, {player_name}!")
-                     print("YOU WIN!")
-                     game_running = False
+
+                    if current_location == "Lighthouse":
+                        print("\nYou use the lantern to restore the lighthouse beacon!")
+                        print("A rescue boat spots the signal!")
+                        print(f"Congratulations, {player_name}!")
+                        print("YOU WIN!")
+                        game_running = False
 
                 else:
                     print("\nYou cannot make that move.")
@@ -83,6 +84,31 @@ def start_game():
 
         else:
             print("\nInvalid choice. Please enter a number.")
+
+
+def start_game():
+    """Control the game and allow the player to replay."""
+
+    while True:
+        play_game()
+
+        while True:
+            print("\nWould you like to play again?")
+            print("1. Play again")
+            print("0. Exit game")
+
+            choice = input("Choose an option: ").strip()
+
+            if choice == "1":
+                print("\nStarting a new adventure...\n")
+                break
+
+            elif choice == "0":
+                print("\nThanks for playing Mystery Island!")
+                return
+
+            else:
+                print("\nInvalid choice. Please enter 1 or 0.")
 
 
 if __name__ == "__main__":
