@@ -1,5 +1,5 @@
 
-from game import get_available_moves
+from game import get_available_moves, move_player
 
 
 def start_game():
@@ -16,6 +16,7 @@ def start_game():
         player_name = "Explorer"
 
     current_location = "Beach"
+    energy = 5
     game_running = True
 
     print(f"\nWelcome, {player_name}!")
@@ -24,6 +25,13 @@ def start_game():
 
     while game_running:
         print(f"\nCurrent location: {current_location}")
+        print(f"Energy: {energy}/5")
+
+        if energy == 0:
+            print("\nYou have run out of energy!")
+            print("You could not escape Mystery Island.")
+            print("GAME OVER")
+            break
 
         available_moves = get_available_moves(current_location)
 
@@ -44,8 +52,17 @@ def start_game():
             move_number = int(choice)
 
             if 1 <= move_number <= len(available_moves):
-                current_location = available_moves[move_number - 1]
-                print(f"\nYou have travelled to {current_location}!")
+                destination = available_moves[move_number - 1]
+
+                current_location, energy, moved = move_player(
+                    current_location, destination, energy
+                )
+
+                if moved:
+                    print(f"\nYou have travelled to {current_location}!")
+                else:
+                    print("\nYou cannot make that move.")
+
             else:
                 print("\nThat destination is not available.")
 
