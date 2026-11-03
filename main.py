@@ -1,4 +1,7 @@
 
+from game import get_available_moves
+
+
 def start_game():
     """Start the Mystery Island adventure."""
 
@@ -12,37 +15,42 @@ def start_game():
     if player_name == "":
         player_name = "Explorer"
 
-    print(f"\nWelcome, {player_name}!")
-    print("You wake up on a mysterious island.")
-    print("A storm has destroyed your boat.")
-    print("You must find a way to escape.\n")
-
+    current_location = "Beach"
     game_running = True
 
+    print(f"\nWelcome, {player_name}!")
+    print("A storm has left you stranded on Mystery Island.")
+    print("Find a way to restore the lighthouse and escape.\n")
+
     while game_running:
-        print("What would you like to do?")
-        print("1. Explore the island")
-        print("2. Check your surroundings")
-        print("3. Quit the game")
+        print(f"\nCurrent location: {current_location}")
 
-        choice = input("Choose 1, 2, or 3: ").strip()
+        available_moves = get_available_moves(current_location)
 
-        if choice == "1":
-            print("\nYou walk along the beach.")
-            print("You notice a path leading into the jungle.\n")
+        print("\nWhere would you like to go?")
 
-        elif choice == "2":
-            print("\nYou are standing on the beach.")
-            print("The jungle lies to the north.")
-            print("The lighthouse stands in the distance.\n")
+        for number, location in enumerate(available_moves, start=1):
+            print(f"{number}. {location}")
 
-        elif choice == "3":
+        print("0. Quit game")
+
+        choice = input("\nChoose your destination: ").strip()
+
+        if choice == "0":
             print(f"\nGoodbye, {player_name}!")
-            print("Thanks for playing Mystery Island.")
             game_running = False
 
+        elif choice.isdigit():
+            move_number = int(choice)
+
+            if 1 <= move_number <= len(available_moves):
+                current_location = available_moves[move_number - 1]
+                print(f"\nYou have travelled to {current_location}!")
+            else:
+                print("\nThat destination is not available.")
+
         else:
-            print("\nInvalid choice. Please choose 1, 2, or 3.\n")
+            print("\nInvalid choice. Please enter a number.")
 
 
 if __name__ == "__main__":
