@@ -1,5 +1,5 @@
 
-from game import get_available_moves, move_player
+from game import get_available_moves, move_player, collect_item
 
 
 def start_game():
@@ -17,6 +17,7 @@ def start_game():
 
     current_location = "Beach"
     energy = 5
+    inventory = []
     game_running = True
 
     print(f"\nWelcome, {player_name}!")
@@ -26,6 +27,7 @@ def start_game():
     while game_running:
         print(f"\nCurrent location: {current_location}")
         print(f"Energy: {energy}/5")
+        print(f"Inventory: {inventory}")
 
         if energy == 0:
             print("\nYou have run out of energy!")
@@ -55,11 +57,24 @@ def start_game():
                 destination = available_moves[move_number - 1]
 
                 current_location, energy, moved = move_player(
-                    current_location, destination, energy
+                    current_location, destination, energy, inventory
                 )
 
                 if moved:
                     print(f"\nYou have travelled to {current_location}!")
+
+                    item = collect_item(current_location, inventory)
+
+                    if item is not None:
+                        print(f"You found a {item}!")
+                        print(f"{item} added to your inventory.")
+                if current_location == "Lighthouse":
+                     print("\nYou use the lantern to restore the lighthouse beacon!")
+                     print("A rescue boat spots the signal!")
+                     print(f"Congratulations, {player_name}!")
+                     print("YOU WIN!")
+                     game_running = False
+
                 else:
                     print("\nYou cannot make that move.")
 
